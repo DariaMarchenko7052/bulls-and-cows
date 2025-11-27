@@ -32,59 +32,5 @@
 
 
 
-## 4. UML-діаграма (ASCII)
-
-```plantuml
-@startuml
-class NumberGenerator {
-    +generate(): String
-}
-
-class Evaluator {
-    +evaluate(secret: String, guess: String): Result
-}
-
-class Position {
-    -digit: int
-    -index: int
-}
-
-class Result {
-    -bulls: int
-    -cows: int
-    -bullsDetails: List<Position>
-    -cowsDetails: List<Position>
-    +getBulls(): int
-    +getCows(): int
-    +getBullsDetails(): List<Position>
-    +getCowsDetails(): List<Position>
-}
-
-class GameEngine {
-    -secret: String
-    -guesses: List<String>
-    -results: List<Result>
-    +startNewGame()
-    +makeGuess(guess: String): Result
-    +isSolved(): boolean
-    +getAttempts(): int
-}
-
-class ConsoleUI {
-    -engine: GameEngine
-    +run(): void
-}
-
-class Main {
-    +main(args: String[]): void
-}
-
-GameEngine --> Result
-ConsoleUI --> GameEngine
-Main --> ConsoleUI
-Result --> Position
-NumberGenerator --> GameEngine
-Evaluator --> GameEngine
-@enduml
 
 
