@@ -16,7 +16,7 @@
 * Після кожної спроби показуються кількість биків і корів та які саме цифри це складають.
 * Можливість почати нову гру після завершення попередньої.
 
-## 4. Пояснення класів
+## 3. Пояснення класів
 
 | Клас              | Призначення                                                                  |
 | ----------------- | ---------------------------------------------------------------------------- |
@@ -28,92 +28,50 @@
 | `ConsoleUI`       | Взаємодія з користувачем через консоль; вводить спроби, виводить результати. |
 | `Main`            | Точка входу в програму, створює об’єкти та запускає гру.                     |
 
----
 
-## 5. UML-діаграма 
+
+
+
+## 4. UML-діаграма (ASCII)
 
 ```
-+------------------+
-| NumberGenerator  |
-+------------------+
-| +generate():String|
-+------------------+
-
-+-----------+
-| Evaluator |
-+-----------+
-| +evaluate(secret:String, guess:String):Result |
-+-----------+
-
-+---------+
-| Position|
-+---------+
-| -digit:int |
-| -index:int |
-+---------+
-
-+--------+
-| Result |
-+--------+
-| -bulls:int |
-| -cows:int  |
-| -bullsDetails:List<Position> |
-| -cowsDetails:List<Position> |
-+--------+
-| +getBulls():int |
-| +getCows():int |
-| +getBullsDetails():List<Position> |
-| +getCowsDetails():List<Position> |
-+--------+
-
-+------------+
-| GameEngine |
-+------------+
-| -secret:String |
-| -guesses:List<String> |
-| -results:List<Result> |
-+------------+
-| +startNewGame() |
-| +makeGuess(guess:String):Result |
-| +isSolved():boolean |
-| +getAttempts():int |
-+------------+
-
++------------------+           +-----------+
+| NumberGenerator  |           | Evaluator |
++------------------+           +-----------+
+| +generate():String|           | +evaluate(secret:String, guess:String):Result |
++------------------+           +-----------+
+        ^                             ^
+        |                             |
+        |                             |
+        |                             |
++------------+                 +--------+
+| GameEngine |<>---------------| Result |
++------------+ 1           1..* +--------+
+| -secret:String              | -bulls:int
+| -guesses:List<String>       | -cows:int
+| -results:List<Result>       | -bullsDetails:List<Position>
++------------+                 | -cowsDetails:List<Position>
+| +startNewGame()              +--------+
+| +makeGuess(guess:String)     | +getBulls():int
+| +isSolved():boolean          | +getCows():int
+| +getAttempts():int           | +getBullsDetails():List<Position>
++------------+                 | +getCowsDetails():List<Position>
+                               +--------+
+        ^
+        |
 +-------------+
 | ConsoleUI   |
 +-------------+
-| -engine:GameEngine |
+| -engine:GameEngine
 +-------------+
-| +run():void |
+| +run():void
 +-------------+
-
+        ^
+        |
 +------+
 | Main |
 +------+
-| +main(args:String[]):void |
+| +main(args:String[]):void
 +------+
-
-Relationships:
-- GameEngine uses NumberGenerator and Evaluator
-- ConsoleUI uses GameEngine
-- Main creates ConsoleUI
-- Result uses Position
 ```
 
----
-
-## 6. Запуск гри
-
-1. В IntelliJ IDEA або іншому середовищі:
-
-   * Відкрити проект.
-   * Відкрити `Main.java`.
-   * Натиснути **Run**.
-2. Через консоль:
-
-   ```bash
-   cd src
-   javac *.java
-   java Main
-   ```
-3. Гравець вводить тризначні числа, гра повідомляє про бики та корови до правильного відгадування.
