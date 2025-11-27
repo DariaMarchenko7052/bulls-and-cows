@@ -34,44 +34,57 @@
 
 ## 4. UML-діаграма (ASCII)
 
-```
-+------------------+           +-----------+
-| NumberGenerator  |           | Evaluator |
-+------------------+           +-----------+
-| +generate():String|           | +evaluate(secret:String, guess:String):Result |
-+------------------+           +-----------+
-        ^                             ^
-        |                             |
-        |                             |
-        |                             |
-+------------+                 +--------+
-| GameEngine |<>---------------| Result |
-+------------+ 1           1..* +--------+
-| -secret:String              | -bulls:int
-| -guesses:List<String>       | -cows:int
-| -results:List<Result>       | -bullsDetails:List<Position>
-+------------+                 | -cowsDetails:List<Position>
-| +startNewGame()              +--------+
-| +makeGuess(guess:String)     | +getBulls():int
-| +isSolved():boolean          | +getCows():int
-| +getAttempts():int           | +getBullsDetails():List<Position>
-+------------+                 | +getCowsDetails():List<Position>
-                               +--------+
-        ^
-        |
-+-------------+
-| ConsoleUI   |
-+-------------+
-| -engine:GameEngine
-+-------------+
-| +run():void
-+-------------+
-        ^
-        |
-+------+
-| Main |
-+------+
-| +main(args:String[]):void
-+------+
-```
+```plantuml
+@startuml
+class NumberGenerator {
+    +generate(): String
+}
+
+class Evaluator {
+    +evaluate(secret: String, guess: String): Result
+}
+
+class Position {
+    -digit: int
+    -index: int
+}
+
+class Result {
+    -bulls: int
+    -cows: int
+    -bullsDetails: List<Position>
+    -cowsDetails: List<Position>
+    +getBulls(): int
+    +getCows(): int
+    +getBullsDetails(): List<Position>
+    +getCowsDetails(): List<Position>
+}
+
+class GameEngine {
+    -secret: String
+    -guesses: List<String>
+    -results: List<Result>
+    +startNewGame()
+    +makeGuess(guess: String): Result
+    +isSolved(): boolean
+    +getAttempts(): int
+}
+
+class ConsoleUI {
+    -engine: GameEngine
+    +run(): void
+}
+
+class Main {
+    +main(args: String[]): void
+}
+
+GameEngine --> Result
+ConsoleUI --> GameEngine
+Main --> ConsoleUI
+Result --> Position
+NumberGenerator --> GameEngine
+Evaluator --> GameEngine
+@enduml
+
 
